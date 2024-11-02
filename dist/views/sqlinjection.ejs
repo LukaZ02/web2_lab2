@@ -1,0 +1,25 @@
+<div class="main-container-index">
+    <div class="form-container">
+        <h1>Enter OIB to see ticket info!</h1>
+        <form action="/sqlinjection" class="form" method="POST">
+            <label class="form-labels" for="agreeTerms" id="checkbox-text">
+                <input type="checkbox" id="agreeTerms" name="agreeTerms">
+                Disable vulnerability
+            </label><br><br>
+            <label class="form-labels" for="OIB">OIB:</label><br>
+            <input class="input-labels" type="text" id="oib" name="oib" required><br>
+            <input type="submit" value="See info" class="button-54" id="create-button">
+        </form>
+        <% if (tickets && tickets.length > 0) { %>
+            <% tickets.forEach(function(t) { %>
+                <div>
+                    <!-- Access properties of each ticket object here -->
+                    <p>First name: <%= t.firstName %></p>
+                    <p>Last name: <%= t.lastName %></p>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No tickets found.</p>
+        <% } %>
+    </div>
+</div>
