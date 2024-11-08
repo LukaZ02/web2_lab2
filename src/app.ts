@@ -4,7 +4,6 @@ import { AppDataSource } from './data-source';
 import dotenv from 'dotenv';
 import path from 'path';
 import { routes } from './routes/routes';
-import {auth} from 'express-openid-connect';
 import * as https from "node:https";
 import * as fs from "node:fs";
 
@@ -14,15 +13,6 @@ const app : Application = express();
 dotenv.config();
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
 const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 4080;
-
-const config = {
-    authRequired: false,
-    auth0Logout: true,
-    secret: process.env.SECRET,
-    baseURL: externalUrl || `https://localhost:${port}`,
-    clientID: process.env.CLIENTID,
-    issuerBaseURL: process.env.ISSUER
-};
 
 //Setup Layouts
 app.use(expressEjsLayouts);
@@ -36,9 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Setup Json Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-//Auth0
-app.use(auth(config))
 
 //Setup Routes
 routes(app)
