@@ -10,7 +10,10 @@ export class TicketRepository {
     }
 
     async addTicket(ticket: Ticket): Promise<Ticket> {
-        return await this.repository.save(ticket);
+        if (!await this.repository.findOneBy(ticket)) {
+            return await this.repository.save(ticket);
+        }
+        return ticket;
     }
 
     async getTicketInfo(oib: string): Promise<Ticket[]> {
