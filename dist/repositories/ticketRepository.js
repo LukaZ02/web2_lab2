@@ -16,6 +16,11 @@ class TicketRepository {
     constructor() {
         this.repository = data_source_1.AppDataSource.getRepository(ticket_1.Ticket);
     }
+    addTicket(ticket) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.repository.save(ticket);
+        });
+    }
     getTicketInfo(oib) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "SELECT * FROM ticket WHERE oib = '" + oib + "'"; // ' OR '1'='1

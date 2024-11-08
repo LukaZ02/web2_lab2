@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TicketController = void 0;
 const ticketRepository_1 = require("../repositories/ticketRepository");
+const ticket_1 = require("../entities/ticket");
 class TicketController {
     static getInfo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -50,6 +51,12 @@ class TicketController {
             lowercasedInput = lowercasedInput.replace(pattern, '');
         }
         return lowercasedInput.trim();
+    }
+    static addTicket(oib, firstname, lastname) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const ticket = new ticket_1.Ticket(oib, firstname, lastname);
+            yield TicketController.ticketRepository.addTicket(ticket);
+        });
     }
 }
 exports.TicketController = TicketController;

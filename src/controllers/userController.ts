@@ -11,13 +11,11 @@ export class UserController {
             const { username, password, agreeTerms } = req.body;
             const currentTime = Date.now();
 
-            // Check if lockout has expired
             if (UserController.lockoutEndTime && currentTime >= UserController.lockoutEndTime) {
                 UserController.lockoutEndTime = null; // Clear lockout
                 UserController.loginAttempts = 0; // Reset attempts
             }
 
-            // If the user is still locked out, calculate the remaining time
             if (UserController.lockoutEndTime && currentTime < UserController.lockoutEndTime) {
                 const lockoutSeconds = Math.ceil((UserController.lockoutEndTime - currentTime) / 1000);
                 return res.render('brokenauth', { title: 'Broken Authentication', user: null, attempt: null, lockout: lockoutSeconds });
@@ -34,7 +32,7 @@ export class UserController {
             if (user) {
                 res.render('brokenauth', { title: 'Broken Authentication', user: user, attempt: null, lockout: null });
                 UserController.loginAttempts = 0;
-                UserController.lockoutEndTime = null; // Reset lockout on successful login
+                UserController.lockoutEndTime = null;
             } else {
                 if (agreeTerms) {
                     UserController.loginAttempts++;

@@ -42,4 +42,9 @@ export class TicketController {
         return lowercasedInput.trim();
     }
 
+    public static async addTicket(oib: string, firstname: string, lastname: string) {
+        const ticket = new Ticket(oib, firstname, lastname);
+        await TicketController.ticketRepository.addTicket(ticket);
+    }
+
 }
