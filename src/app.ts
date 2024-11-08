@@ -32,11 +32,6 @@ app.use(express.urlencoded({ extended: true }));
 //Setup Routes
 routes(app)
 
-//insert records
-TicketController.addTicket('12345678901', 'John', 'Doe');
-TicketController.addTicket('12345678902', 'Jane', 'Smith');
-TicketController.addTicket('12345678903', 'Johan', 'Frank');
-
 //Connect to DataSource
 AppDataSource.initialize().then(() => {
     if (externalUrl) {

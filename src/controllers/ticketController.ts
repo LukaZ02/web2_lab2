@@ -7,6 +7,10 @@ export class TicketController {
 
     public static async getInfo(req : Request, res : Response) {
         try {
+            //insert records for demo
+            await TicketController.addTicket('12345678901', 'John', 'Doe');
+            await TicketController.addTicket('12345678902', 'Jane', 'Smith');
+            await TicketController.addTicket('12345678903', 'Johan', 'Frank');
             const { oib, agreeTerms } = req.body;
             if (agreeTerms) {
                 const sanitizedOib = TicketController.sanitizeInput(oib);
