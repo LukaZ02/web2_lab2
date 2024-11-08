@@ -1,7 +1,7 @@
 <div class="main-container-index">
     <div class="form-container">
         <h1>Enter OIB to see ticket info!</h1>
-        <form action="/sqlinjection" class="form" method="POST" onsubmit="showNoTicketsMessage();">
+        <form action="/sqlinjection" class="form" method="POST">
             <label class="form-labels" for="agreeTerms" id="checkbox-text">
                 <input type="checkbox" id="agreeTerms-sql" name="agreeTerms">
                 Disable vulnerability
@@ -10,7 +10,6 @@
             <input class="input-labels" type="text" id="oib" name="oib" required><br>
             <input type="submit" value="See info" class="button-54" id="create-button">
         </form>
-
         <% if (tickets && tickets.length > 0) { %>
             <% tickets.forEach(function(t) { %>
                 <div class="numbering-items">
@@ -19,7 +18,7 @@
                 </div>
             <% }) %>
         <% } else { %>
-            <p id="noTicketsMessage" class="hidden">No tickets found.</p>
+            <p>No tickets found.</p>
         <% } %>
     </div>
 </div>
@@ -34,12 +33,4 @@
         const isChecked = localStorage.getItem("agreeTermsChecked-sql") === "true";
         checkbox.checked = isChecked;
     };
-
-    function showNoTicketsMessage() {
-        const noTicketsMessage = document.getElementById("noTicketsMessage");
-        if (noTicketsMessage) {
-            noTicketsMessage.classList.remove("hidden");
-        }
-    }
 </script>
-
