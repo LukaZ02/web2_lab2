@@ -1,0 +1,105 @@
+<div class="main-container-index" id="main-container-brokenauth">
+    <div class="form-container" id="numerouno">
+        <h1>Welcome, try to log in as admin to see secret info!</h1>
+        <% if(attempt !== null) { %>
+            <h5 attempt-left>Attempts left: <%= attempt %></h5>
+        <% } %>
+        <h5 id="lockoutMessage" style="display: none;">Try again in: <span id="countdown"></span> seconds</h5>
+
+        <form action="/brokenauth" class="login-form" method="POST" id="loginForm">
+            <label class="form-labels" for="agreeTerms" id="checkbox-text">
+                <input type="checkbox" id="agreeTerms" name="agreeTerms">
+                Disable vulnerability
+            </label><br><br>
+            <label class="form-labels" for="username">Username:</label><br>
+            <input class="input-labels" type="text" id="username" name="username" required><br>
+            <label class="form-labels" for="password">Password:</label><br>
+            <input class="input-labels" type="text" id="password" name="password" required><br>
+            <input type="submit" value="Log in" class="button-54" id="create-button">
+        </form>
+    </div>
+    <% if(user) { %>
+    <div class="form-container" id="numerozwei">
+        <h3>Krabby patty secret formula:</h3>
+        <div id="patty-ingr">
+            <ul>
+                <li>Flour</li>
+                <li>Barnacle Shavings (For Calcium)</li>
+                <li>Salt</li>
+                <li>Turmeric</li>
+                <li>Love (Cooking With Passion)</li>
+                <li>Seahorse Radish (Secret Ingredient)</li>
+                <li>Chum</li>
+                <li>Seaweed Paste</li>
+            </ul>
+            <ul>
+                <li>Seaweed Bun (Bottom Bun)</li>
+                <li>Patty</li>
+                <li>Sea Lettuce</li>
+                <li>Sea Cheese</li>
+                <li>Sea Onion</li>
+                <li>Sea Tomato</li>
+                <li>Sea Ketchup</li>
+                <li>Sea Mustard</li>
+                <li>Sea Pickles</li>
+                <li>Seaweed Bun (Top Bun)</li>
+            </ul>
+        </div>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitRww8FlCpl27v10IFm74j1DRLTmmo-kkoY8Pck-Y_wJq9J2Dry2omp7LoVLYvOETjklWn5Ooset8SvPuYuzqouZ2qLqx4lmMTyeSs3yLA_a7zmZVbCoRTFlHGw8HnNA6_-b83nkSYdybEVtIMN6lZGtmMg1D8niprwi5LJ_VkAzTONKmCfQU8/w1200-h630-p-k-no-nu/krabby-patty-d3bpdiefjjgf5cxvvcnjomm45m.jpg" style="width:16rem;height:6rem;">
+    </div>
+    <% } %>
+</div>
+
+<script>
+    document.getElementById("agreeTerms").addEventListener("change", function() {
+        localStorage.setItem("agreeTermsChecked", this.checked);
+    });
+
+    window.onload = function() {
+        const checkbox = document.getElementById("agreeTerms");
+        checkbox.checked = localStorage.getItem("agreeTermsChecked") === "true";
+
+        const lockout = <%= lockout !== null ? lockout : 'null' %>;
+        if (lockout) {
+            startCountdown(lockout);
+        }
+    };
+
+    function startCountdown(seconds) {
+        const endTime = Date.now() + seconds * 1000;
+        localStorage.setItem('lockoutEndTime', endTime);
+        updateCountdown();
+    }
+
+    function updateCountdown() {
+        const countdownElem = document.getElementById("countdown");
+        const lockoutMessage = document.getElementById("lockoutMessage");
+        const form = document.getElementById("loginForm");
+
+        const lockoutEndTime = parseInt(localStorage.getItem('lockoutEndTime'), 10);
+        const remainingSeconds = Math.ceil((lockoutEndTime - Date.now()) / 1000);
+
+        if (Date.now() < lockoutEndTime) {
+            lockoutMessage.style.display = 'block';
+            form.querySelector("input[type=submit]").disabled = true;
+            countdownElem.innerText = remainingSeconds;
+
+            setTimeout(updateCountdown, 1000);
+        } else {
+            lockoutMessage.style.display = 'none';
+            form.querySelector("input[type=submit]").disabled = false;
+            localStorage.removeItem('lockoutEndTime');
+
+            // Reset attempts display when lockout ends
+            resetAttemptsDisplay();
+        }
+    }
+
+    function resetAttemptsDisplay() {
+        const attemptDisplay = document.querySelector('h5[attempt-left]');
+        if (attemptDisplay) {
+            attemptDisplay.innerText = "Attempts left: 3"; // Reset to 3 attempts
+        }
+    }
+</script>
+
