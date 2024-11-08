@@ -107,6 +107,15 @@ create.ejs
 #checkbox-text {
     color: black;
 }
+.numbering-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 1rem;
+}
+.item {
+    margin: 0;
+}
 
 /*
 home.ejs
@@ -167,6 +176,48 @@ home.ejs
 }
 #only-log-in {
     margin-left: 20rem;
+}
+
+/*
+brokenauth.ejs
+*/
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 80%;
+}
+
+#username {
+    width: 100%;
+    height: 1.5rem;
+}
+
+#password {
+    width: 100%;
+    height: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#main-container-brokenauth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+#numerouno {
+    margin-top: 3rem;
+}
+
+#numerozwei {
+    margin-top: 1.5rem;
+}
+
+#patty-ingr {
+    display: flex;
+    flex-direction: row;
 }
 
 @media (min-width: 768px) {

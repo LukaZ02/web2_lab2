@@ -9,9 +9,13 @@ export class TicketRepository {
         this.repository = AppDataSource.getRepository(Ticket);
     }
 
-    async getticketinfo(oib: string): Promise<Ticket[]> {
+    async getTicketInfo(oib: string): Promise<Ticket[]> {
         const query: string = "SELECT * FROM ticket WHERE oib = '" + oib + "'";  // ' OR '1'='1
-        return await this.repository.query(query);
+        try {
+            return await this.repository.query(query);
+        } catch (error) {
+            return [];
+        }
     }
 
 }

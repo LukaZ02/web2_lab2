@@ -3,7 +3,7 @@ import expressEjsLayouts from 'express-ejs-layouts';
 import { AppDataSource } from './data-source';
 import dotenv from 'dotenv';
 import path from 'path';
-import { ticketRoutes } from './routes/ticketRoutes';
+import { routes } from './routes/routes';
 import {auth} from 'express-openid-connect';
 
 const config = {
@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(auth(config))
 
 //Setup Routes
-ticketRoutes(app)
+routes(app)
 
 //Connect to DataSource
 AppDataSource.initialize().then(() => {
@@ -46,5 +46,5 @@ AppDataSource.initialize().then(() => {
 
     });
     }).catch((error) => {
-
+        console.log(error);
     });

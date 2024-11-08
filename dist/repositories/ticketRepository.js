@@ -16,13 +16,15 @@ class TicketRepository {
     constructor() {
         this.repository = data_source_1.AppDataSource.getRepository(ticket_1.Ticket);
     }
-    // Custom query using raw SQL
-    getticketinfo(oib) {
+    getTicketInfo(oib) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.debug(oib);
-            const query = `SELECT * FROM ticket WHERE oib = '${oib}'`;
-            console.debug(query);
-            return yield this.repository.query("SELECT * FROM ticket WHERE oib = $1", [oib]);
+            const query = "SELECT * FROM ticket WHERE oib = '" + oib + "'"; // ' OR '1'='1
+            try {
+                return yield this.repository.query(query);
+            }
+            catch (error) {
+                return [];
+            }
         });
     }
 }

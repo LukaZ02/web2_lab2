@@ -3,7 +3,7 @@
         <h1>Enter OIB to see ticket info!</h1>
         <form action="/sqlinjection" class="form" method="POST">
             <label class="form-labels" for="agreeTerms" id="checkbox-text">
-                <input type="checkbox" id="agreeTerms" name="agreeTerms">
+                <input type="checkbox" id="agreeTerms-sql" name="agreeTerms">
                 Disable vulnerability
             </label><br><br>
             <label class="form-labels" for="OIB">OIB:</label><br>
@@ -12,10 +12,9 @@
         </form>
         <% if (tickets && tickets.length > 0) { %>
             <% tickets.forEach(function(t) { %>
-                <div>
-                    <!-- Access properties of each ticket object here -->
-                    <p>First name: <%= t.firstName %></p>
-                    <p>Last name: <%= t.lastName %></p>
+                <div class="numbering-items">
+                    <p class="item">First name: <%= t.firstName %></p>
+                    <p class="item">Last name: <%= t.lastName %></p>
                 </div>
             <% }) %>
         <% } else { %>
@@ -23,3 +22,15 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    document.getElementById("agreeTerms-sql").addEventListener("change", function() {
+        localStorage.setItem("agreeTermsChecked-sql", this.checked);
+    });
+
+    window.onload = function() {
+        const checkbox = document.getElementById("agreeTerms-sql");
+        const isChecked = localStorage.getItem("agreeTermsChecked-sql") === "true";
+        checkbox.checked = isChecked;
+    };
+</script>

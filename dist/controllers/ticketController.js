@@ -14,11 +14,42 @@ const ticketRepository_1 = require("../repositories/ticketRepository");
 class TicketController {
     static getInfo(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { oib } = req.body;
-            console.debug(oib);
-            const tickets = yield TicketController.ticketRepository.getticketinfo(oib);
-            res.render('sqlinjection', { title: 'SQL Injection', tickets: tickets });
+            try {
+                const { oib, agreeTerms } = req.body;
+                if (agreeTerms) {
+                    const sanitizedOib = TicketController.sanitizeInput(oib);
+                    const tickets = yield TicketController.ticketRepository.getTicketInfo(sanitizedOib);
+                    res.render('sqlinjection', { title: 'SQL Injection', tickets: tickets });
+                }
+                else {
+                    const tickets = yield TicketController.ticketRepository.getTicketInfo(oib);
+                    res.render('sqlinjection', { title: 'SQL Injection', tickets: tickets });
+                }
+            }
+            catch (error) {
+                res.status(500).send;
+            }
         });
+    }
+    static sanitizeInput(input) {
+        let lowercasedInput = input.toLowerCase();
+        const disallowedPatterns = [
+            /\bunion\b/,
+            /\bselect\b/,
+            /\binsert\b/,
+            /\bdelete\b/,
+            /\bupdate\b/,
+            /\bdrop\b/,
+            /\b--\b/,
+            /;/,
+            /' or '/i,
+            /1=1/,
+            /'=\s*'/
+        ];
+        for (const pattern of disallowedPatterns) {
+            lowercasedInput = lowercasedInput.replace(pattern, '');
+        }
+        return lowercasedInput.trim();
     }
 }
 exports.TicketController = TicketController;

@@ -8,7 +8,7 @@ const express_ejs_layouts_1 = __importDefault(require("express-ejs-layouts"));
 const data_source_1 = require("./data-source");
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-const ticketRoutes_1 = require("./routes/ticketRoutes");
+const routes_1 = require("./routes/routes");
 const express_openid_connect_1 = require("express-openid-connect");
 const config = {
     authRequired: false,
@@ -35,10 +35,11 @@ app.use(express_1.default.urlencoded({ extended: true }));
 //Auth0
 app.use((0, express_openid_connect_1.auth)(config));
 //Setup Routes
-(0, ticketRoutes_1.ticketRoutes)(app);
+(0, routes_1.routes)(app);
 //Connect to DataSource
 data_source_1.AppDataSource.initialize().then(() => {
     app.listen(port, () => {
     });
 }).catch((error) => {
+    console.log(error);
 });
